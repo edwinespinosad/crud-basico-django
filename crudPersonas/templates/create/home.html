@@ -1,0 +1,53 @@
+{% extends 'create/layout.html' %}
+
+{% block content %}
+
+{% if messages %}
+{% for message in messages %}
+<div id='successAlert' class='alert alert-success alert-dismissible fade show' role='alert'> {{message}} <button type='button' class='close' data-dismiss='alert' aria-label='Close'> <span aria-hidden='true'>&times;</span> </button> </div>
+{% endfor %}
+{% endif %}
+<h4 class="text-center">Users</h4>
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Last Name</th>
+            <th class="text-center">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <th class="text-center"> {{ user.id }} </th>
+            <th class="text-center"> {{ user.name }} </th> </th>
+            <th class="text-center"> {{ user.last_name }} </th>
+            <th class="text-center">
+                <a href="edit/{{user.id}}" class="btn btn-warning">Edit</a>
+                <a href="delete/{{user.id}}" class="btn btn-danger btnDelete">Delete</a>
+            </th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<!--Pagination-->
+<div class="container p-4">
+    <div class="pagination justify-content-center">
+        <ul class="pagination">
+            {% if users.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{users.previous_page_number}}">Previous</a></li>
+            {% endif %}
+            {% for i in users.paginator.page_range %}
+                <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+            {% endfor %}
+            {% if users.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ users.next_page_number }}">Next</a></li>
+            {% endif %}
+
+        </ul>
+        </div>
+    </div>
+
+<a href="/create" class="btn btn-primary btn-block">Create</a>
+{% endblock %}
